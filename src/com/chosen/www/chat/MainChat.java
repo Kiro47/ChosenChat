@@ -1,24 +1,30 @@
-package spigot.ChosenChat.stone;
+package com.chosen.www.chat;
 
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import spigot.ChosenChat.stone.events.EventClass;
+import com.chosen.www.chat.commands.Commands;
+import com.chosen.www.chat.events.EventClass;
 
 public class MainChat extends JavaPlugin {
 
-public ConfigManager cfgm;
-	
+	public ConfigManager cfgm;
+	public Commands commands = new Commands(this);
+
 	public void onEnable() {
 		
 		loadConfigManager();
 		
-		getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "testfile enabled");
+		this.getCommand("channel").setExecutor(commands);
+		
 		getServer().getPluginManager().registerEvents(new EventClass(this), this);
+		getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "ChosenChat enabled");
 	}
 	
 	public void onDisable() {
-		getServer().getConsoleSender().sendMessage(ChatColor.RED + "testfile disabled");
+		
+		commands.shutDown();
+		getServer().getConsoleSender().sendMessage(ChatColor.RED + "ChosenChat disabled");
 	}
 	
 	public void loadConfigManager() {

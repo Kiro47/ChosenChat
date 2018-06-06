@@ -1,4 +1,4 @@
-package spigot.ChosenChat.stone;
+package com.chosen.www.chat;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public class ConfigManager {
 	
 	//config class for storing configuration files and config instances
-	private class configNode {
+	public class configNode {
 		
 		private FileConfiguration config;
 		private File configFile;
@@ -98,7 +98,7 @@ public class ConfigManager {
 	
 	public void set( String fileName, String path, Object value) {
 
-		configNode cfgNode = allConfigs.get(fileName);
+		configNode cfgNode = getConfig(fileName);
 		FileConfiguration config = cfgNode.getConfig();
 		
 		config.set(path, value);
