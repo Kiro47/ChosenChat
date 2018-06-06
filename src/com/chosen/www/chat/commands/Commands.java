@@ -38,7 +38,7 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 		Iterable<String> permanentChannels = cfManager.getConfig("channels.yml").getConfig().getKeys(false);
 		//Initial setup of General Global chat if it doesn't exist
 		//General chat's settings can be changed but it must exist or bad things happen
-		if ( cfManager.get("channels.yml", "general") == null ) {
+		if ( cfManager.get("channels.yml", "General") == null ) {
 			ChatChannel general = new ChatChannel("General", true, false, false, "darkgreen" );
 			channels.put("General", general);
 		}
@@ -222,7 +222,9 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 	private void swapChannel(Player player, String joinedChannel) {
 		String playerUUID = player.getUniqueId().toString().replace("-", "");
 		String formerChannel = cfManager.get("players.yml", playerUUID + ".activeChannel");
-				
+		
+		player.sendMessage("leaving the " + formerChannel + " channel");
+		
 		ChatChannel leftChannel = channels.get(formerChannel);
 		leftChannel.leave(player);
 		cfManager.set("players.yml", playerUUID + ".activeChannel", joinedChannel);
