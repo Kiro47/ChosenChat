@@ -14,12 +14,12 @@ public class ChatChannel {
 	boolean locked;
 	private ChatColor color;
 	
-	public ChatChannel( String name, boolean permanent, boolean local, boolean locked, ChatColor color ) {
+	public ChatChannel( String name, boolean permanent, boolean local, boolean locked, String color ) {
 		channelName = name;
 		this.permanent = permanent;
 		this.local = local;
 		this.locked = locked;
-		this.color = color;
+		setColor(color);
 	}
 	
 	public ArrayList<Player> getPlayers() {
@@ -114,6 +114,62 @@ public class ChatChannel {
 	
 	public ChatColor getColor() {
 		return color;
+	}
+	
+	public String getColorToString() {
+		switch (color) {
+		
+		case AQUA:
+			return "lightblue";
+			
+		case BLACK:
+			return "black";
+			
+		case BLUE:
+			return"blue";
+			
+		case DARK_AQUA:
+			return "cyan";
+			
+		case DARK_BLUE:
+			return "darkblue";
+			
+		case DARK_GRAY:
+			return "darkgray";
+			
+		case DARK_GREEN:
+			return "darkgreen";
+			
+		case DARK_PURPLE:
+			return "purple";
+			
+		case DARK_RED:
+			return "darkred";
+			
+		case GOLD:
+			return "orange";
+			
+		case GRAY:
+			return "gray";
+			
+		case GREEN:
+			return "green";
+			
+		case LIGHT_PURPLE:
+			return "magenta";
+			
+		case RED:
+			return "red";
+			
+		case WHITE:
+			return "white";
+			
+		case YELLOW:
+			return "yellow";
+		
+		default:
+			return "white";
+		}
 	}
 	
 	public String getName() {

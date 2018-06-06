@@ -9,11 +9,12 @@ import com.chosen.www.chat.events.EventClass;
 public class MainChat extends JavaPlugin {
 
 	public ConfigManager cfgm;
-	public Commands commands = new Commands(this);
-
+	public Commands commands;
+	
 	public void onEnable() {
 		
 		loadConfigManager();
+		commands = new Commands(this);
 		
 		this.getCommand("channel").setExecutor(commands);
 		

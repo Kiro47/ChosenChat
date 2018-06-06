@@ -39,7 +39,7 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 		//Initial setup of General Global chat if it doesn't exist
 		//General chat's settings can be changed but it must exist or bad things happen
 		if ( cfManager.get("channels.yml", "general") == null ) {
-			ChatChannel general = new ChatChannel("General", true, false, false, ChatColor.GREEN );
+			ChatChannel general = new ChatChannel("General", true, false, false, "darkgreen" );
 			channels.put("General", general);
 		}
 		
@@ -48,7 +48,7 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 			boolean permanent = true;
 			boolean local = cfManager.get("channels.yml", channel + ".local");
 			boolean locked = cfManager.get("channels.yml", channel + ".private");
-			ChatColor color = cfManager.get("channels.yml", channel + ".color");
+			String color = cfManager.get("channels.yml", channel + ".color");
 			
 			ChatChannel newChannel = new ChatChannel(channel, permanent, local, locked, color );
 			channels.put(channel, newChannel);
@@ -60,7 +60,7 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 			if ( c.isPermanent() ) {
 				cfManager.set("channels.yml", c.getName() + ".local", c.isLocal());
 				cfManager.set("channels.yml", c.getName() + ".private", c.isPrivate());
-				cfManager.set("channels.yml", c.getName() + ".color", c.getColor());
+				cfManager.set("channels.yml", c.getName() + ".color", c.getColorToString());
 			}
 		}
 	}
@@ -168,7 +168,7 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 
 	private void createChannel(String channelName) {
 		
-		ChatChannel newChannel = new ChatChannel(channelName, false, false, false, ChatColor.WHITE);
+		ChatChannel newChannel = new ChatChannel(channelName, false, false, false, "white");
 		channels.put(channelName, newChannel);
 		
 	}
@@ -230,7 +230,8 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 		if ( leftChannel.size() == 0 && !leftChannel.isPermanent() ) {
 			channels.remove(formerChannel);
 		}
-				
+		
+		channels.get(joinedChannel).join(player);
 		String activeChannel = cfManager.get("players.yml", playerUUID + ".activeChannel");
 		ChatColor color = channels.get(activeChannel).getColor();
 		

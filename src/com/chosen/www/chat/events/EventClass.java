@@ -11,6 +11,7 @@ import com.chosen.www.chat.MainChat;
 import com.chosen.www.chat.commands.Commands;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 
@@ -36,6 +37,7 @@ public class EventClass implements Listener {
 		if ( cfManager.get("players.yml", playerUUID) == null) {
 			cfManager.set("players.yml", playerUUID + ".username", player.getName());
 			cfManager.set("players.yml", playerUUID + ".activeChannel", "General");
+			commands.getChannel("General").join(player);
 			
 			plugin.getServer().getConsoleSender().sendMessage(ChatColor.AQUA + "new player " + player.getName() + " joined");
 			event.setJoinMessage(ChatColor.LIGHT_PURPLE + "Welcome " + player.getName() + " to the server!");
@@ -46,6 +48,7 @@ public class EventClass implements Listener {
 		
 	}
 	
+	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
 		
 		Player player = event.getPlayer();
@@ -56,11 +59,32 @@ public class EventClass implements Listener {
 		ChatChannel channel = commands.getChannel(activeChannel);
 		ChatColor color = channel.getColor();
 		
+		player.sendMessage(color + "you sent a message in the " + activeChannel + " channel");
+		
 		/*
 		 * NEED TO ADD SUPPORT FOR PRIVATE AND LOCAL CHANNELS HERE
 		 * BASED ON CHANNEL PRIVACY AND LOCALNESS
 		 */
-		event.getRecipients().remove(o) //remove people who can't see the message
+		//remove recipients if channel is private
+		if ( channel.isPrivate() ) {
+			for ( Player p : event.getRecipients() ) {
+				if ( !channel.getPlayers().contains(p) ) {
+					event.getRecipients().remove(p);
+				}
+			}
+		}
+		//remove recipients outside of range if channel is local
+		if ( channel.isLocal() ) {
+			Location mouth = player.getLocation();
+			
+			for ( Player p : event.getRecipients() ) {
+				Location ear = p.getLocation();
+				if ( mouth.distance(ear) > 100 ) {
+					event.getRecipients().remove(p);
+				}
+			}
+		}
+		
 		event.setFormat(color + "[" + channelChar + "] " + ChatColor.WHITE + player.getDisplayName() + ChatColor.GRAY + ": " + color + event.getMessage() );
 		
 	}
