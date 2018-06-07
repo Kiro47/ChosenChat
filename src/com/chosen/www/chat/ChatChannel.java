@@ -197,11 +197,11 @@ public class ChatChannel {
 	}
 	
 	public boolean isPrivate() {
-		return permanent;
+		return locked;
 	}
 	
 	public void setPrivate( String value ) {
-		permanent = Boolean.valueOf(value);
+		locked = Boolean.valueOf(value);
 	}
 	
 }

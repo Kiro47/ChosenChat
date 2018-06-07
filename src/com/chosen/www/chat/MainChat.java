@@ -24,7 +24,6 @@ public class MainChat extends JavaPlugin {
 	
 	public void onDisable() {
 		
-		commands.shutDown();
 		getServer().getConsoleSender().sendMessage(ChatColor.RED + "ChosenChat disabled");
 	}
 	

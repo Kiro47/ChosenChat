@@ -70,7 +70,8 @@ public class ConfigManager {
 			try {
 				tempConfigFile.createNewFile();
 			} catch ( IOException e) {
-				Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.DARK_RED + "The" + fileName + "config file could not be created");
+				e.printStackTrace();
+				Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.DARK_RED + "The " + fileName + " config file could not be created");
 			}
 			tempConfig = YamlConfiguration.loadConfiguration(tempConfigFile);
 			Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "New config setup completed");

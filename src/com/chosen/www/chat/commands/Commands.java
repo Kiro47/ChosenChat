@@ -54,16 +54,6 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 			channels.put(channel, newChannel);
 		}
 	}
-	//when the plugin is disabled, save the permanent channels in config
-	public void shutDown() {
-		for ( ChatChannel c : channels.values() ) {
-			if ( c.isPermanent() ) {
-				cfManager.set("channels.yml", c.getName() + ".local", c.isLocal());
-				cfManager.set("channels.yml", c.getName() + ".private", c.isPrivate());
-				cfManager.set("channels.yml", c.getName() + ".color", c.getColorToString());
-			}
-		}
-	}
 	
 	public ChatChannel getChannel( String channelName ) {
 		return channels.get(channelName);
@@ -181,11 +171,19 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 		
 		case "permanent":
 			
-			if ( value == null || (value != "true" && value != "false") ) {
+			if ( value == null || (!value.equalsIgnoreCase("true") && !value.equalsIgnoreCase("false") ) ) {
 				//add a help message
-				return "channel set permanent help message";
+				return value + " is not true or false. this setting must be true or false";
 			} else {
-				channels.get(channelName).setPermanent(value);
+				ChatChannel channel = channels.get(channelName);
+				channel.setPermanent(value);
+				if ( channel.isPermanent() ) {
+					cfManager.set("channels.yml", channelName + ".local", channel.isLocal());
+					cfManager.set("channels.yml", channelName + ".private", channel.isPrivate());
+					cfManager.set("channels.yml", channelName + ".color", channel.getColorToString());
+				} else {
+					cfManager.set("channels.yml", channelName, null);
+				}
 				return channelColor + "set channel permanence to: " + value;
 			}
 		
