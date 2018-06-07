@@ -41,6 +41,7 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 		if ( cfManager.get("channels.yml", "General") == null ) {
 			ChatChannel general = new ChatChannel("General", true, false, false, "darkgreen" );
 			channels.put("General", general);
+			System.out.println("created general chat because it did not exist");
 		}
 		
 		//NEED TO INITIALIZE PERMANENT CHANNELS HERE
@@ -74,83 +75,104 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 //				player.sendMessage(ChatColor.RED + cannotInto);
 //			}
 		
+			//actual commands
 			if ( command.getName().equalsIgnoreCase(cmd0) ) {
+				channelCommand(player, activeChannel, args);
+			//channel shortcuts
+			} else {
+				Iterable<String> permanentChannels = cfManager.getConfig("channels.yml").getConfig().getKeys(false);
 				
-				if ( args.length < 1 ) {
-					//add a help message
-					player.sendMessage("channel help message");
-					return true;
-				} else {
-				
-					switch (args[0]) {
-				
-					case "help":
-					
+				for ( String channel : permanentChannels ) {
+					String shortcut = cfManager.get("channels.yml", channel + ".shortCut");
+					if ( command.getName().equalsIgnoreCase(shortcut) || 
+							command.getName().equalsIgnoreCase("" + shortcut.charAt(0)) ) {
+						if ( channels.get(channel).isPrivate() ) {
+							//deal with players not being able to shortcut to a channel
+							//such as admin chat
+						}
+						swapChannel(player, channel);
 						break;
-					
-					case "create":
-//						if ( !player.hasPermission(Permissions.COMMAND_CREATE_CHANNEL) ) {
-//							player.sendMessage(ChatColor.RED + cannotInto);
-//							return true;
-//						}
-					
-						if ( args.length < 2 ) {
-							//add a help message
-							player.sendMessage("channel create help message");
-							break;
-						}
-				
-						createChannel(args[1]);
-						swapChannel(player, args[1]);
-						break;
-					
-					case "delete":
-//						if ( !player.hasPermission(Permissions.COMMAND_DELETE_CHANNEL) ) {
-//							player.sendMessage(ChatColor.RED + cannotInto);
-//							return true;
-//						}
-					
-						if ( args.length < 2 ) {
-							//add a help message
-							player.sendMessage("channel delete help message");
-							break;
-						} else {
-							for ( Player p : channels.get(activeChannel).getPlayers() ) {
-								swapChannel(p, "General");
-							}
-							channels.remove(activeChannel);
-							break;
-						}
-					
-					case "join":
-						if ( args.length < 2 ) {
-							//add a help message
-							player.sendMessage("channel join help message");
-							break;
-						} else {
-							swapChannel(player, args[1]);
-							break;
-						}
-					
-					case "set":
-//						if ( !player.hasPermission(Permissions.COMMAND_EDIT_CHANNEL) ) {
-//							player.sendMessage(ChatColor.RED + cannotInto);
-//							break;
-//						}	
-					
-						if ( args.length < 2 ) {
-							//add a help message
-							player.sendMessage("channel set help message");
-							break;
-						} else if ( args.length < 3 ) {
-							player.sendMessage(setChannel(activeChannel, args[1], null));
-						} else {
-							player.sendMessage(setChannel(activeChannel, args[1], args[2]));
-						}
-						
-						break; 
 					}
 				}
+			}
+		}
+		return true;
+	}
+	
+	private boolean channelCommand( Player player, String activeChannel ,String[] args) {
+		if ( args.length < 1 ) {
+			//add a help message
+			player.sendMessage("channel help message");
+			return true;
+		} else {
+		
+			switch (args[0]) {
+		
+			case "help":
+			
+				break;
+			
+			case "create":
+//				if ( !player.hasPermission(Permissions.COMMAND_CREATE_CHANNEL) ) {
+//					player.sendMessage(ChatColor.RED + cannotInto);
+//					return true;
+//				}
+			
+				if ( args.length < 2 ) {
+					//add a help message
+					player.sendMessage("channel create help message");
+					break;
+				}
+		
+				createChannel(args[1]);
+				swapChannel(player, args[1]);
+				break;
+			
+			case "delete":
+//				if ( !player.hasPermission(Permissions.COMMAND_DELETE_CHANNEL) ) {
+//					player.sendMessage(ChatColor.RED + cannotInto);
+//					return true;
+//				}
+			
+				if ( args.length < 2 ) {
+					//add a help message
+					player.sendMessage("channel delete help message");
+					break;
+				} else {
+					for ( Player p : channels.get(activeChannel).getPlayers() ) {
+						swapChannel(p, "General");
+					}
+					channels.remove(activeChannel);
+					break;
+				}
+			
+			case "join":
+				if ( args.length < 2 ) {
+					//add a help message
+					player.sendMessage("channel join help message");
+					break;
+				} else {
+					swapChannel(player, args[1]);
+					break;
+				}
+			
+			case "set":
+//				if ( !player.hasPermission(Permissions.COMMAND_EDIT_CHANNEL) ) {
+//					player.sendMessage(ChatColor.RED + cannotInto);
+//					break;
+//				}	
+			
+				if ( args.length < 2 ) {
+					//add a help message
+					player.sendMessage("channel set help message");
+					break;
+				} else if ( args.length < 3 ) {
+					player.sendMessage(setChannel(activeChannel, args[1], null));
+				} else {
+					player.sendMessage(setChannel(activeChannel, args[1], args[2]));
+				}
+				
+				break; 
 			}
 		}
 		return true;
@@ -181,6 +203,7 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 					cfManager.set("channels.yml", channelName + ".local", channel.isLocal());
 					cfManager.set("channels.yml", channelName + ".private", channel.isPrivate());
 					cfManager.set("channels.yml", channelName + ".color", channel.getColorToString());
+					cfManager.set("channels.yml", channelName + ".shortCut", channel.getName().toLowerCase());
 				} else {
 					cfManager.set("channels.yml", channelName, null);
 				}
@@ -188,7 +211,7 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 			}
 		
 		case "local":
-			if ( value == null || (value != "true" && value != "false") ) {
+			if ( value == null || (!value.equalsIgnoreCase("true") && !value.equalsIgnoreCase("false") ) ) {
 				//add a help message
 				return "channel set local help message";
 			} else {
@@ -197,7 +220,7 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 			}
 			
 		case "private":
-			if ( value == null || (value != "true" && value != "false") ) {
+			if ( value == null || (!value.equalsIgnoreCase("true") && !value.equalsIgnoreCase("false") ) ) {
 				//add a help message
 				return "channel set private help message";
 			} else {
@@ -217,7 +240,7 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 		}
 	}
 
-	private void swapChannel(Player player, String joinedChannel) {
+	public void swapChannel(Player player, String joinedChannel) {
 		String playerUUID = player.getUniqueId().toString().replace("-", "");
 		String formerChannel = cfManager.get("players.yml", playerUUID + ".activeChannel");
 		

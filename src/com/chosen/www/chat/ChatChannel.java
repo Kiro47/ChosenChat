@@ -40,7 +40,7 @@ public class ChatChannel {
 	
 	public String setColor( String col ) {
 		
-		switch (col) {
+		switch (col.toLowerCase()) {
 		
 		case "lightblue":
 			color = ChatColor.AQUA;

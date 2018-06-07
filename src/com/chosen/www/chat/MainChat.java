@@ -14,8 +14,8 @@ public class MainChat extends JavaPlugin {
 	public void onEnable() {
 		
 		loadConfigManager();
-		commands = new Commands(this);
 		
+		commands = new Commands(this);
 		this.getCommand("channel").setExecutor(commands);
 		
 		getServer().getPluginManager().registerEvents(new EventClass(this), this);

@@ -3,6 +3,7 @@ package com.chosen.www.chat.events;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.chosen.www.chat.ChatChannel;
@@ -46,6 +47,14 @@ public class EventClass implements Listener {
 			cfManager.set("players.yml", playerUUID + ".username", player.getName());
 		}
 		
+	}
+	
+	@EventHandler
+	public void onQuit( PlayerQuitEvent event ) {
+		
+		Player player = event.getPlayer();
+		
+		commands.swapChannel(player, "General");
 	}
 	
 	@EventHandler
