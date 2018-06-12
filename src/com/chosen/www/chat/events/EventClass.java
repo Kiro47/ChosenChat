@@ -68,8 +68,6 @@ public class EventClass implements Listener {
 		ChatChannel channel = commands.getChannel(activeChannel);
 		ChatColor color = channel.getColor();
 		
-		player.sendMessage(color + "you sent a message in the " + activeChannel + " channel");
-		
 		/*
 		 * NEED TO ADD SUPPORT FOR PRIVATE AND LOCAL CHANNELS HERE
 		 * BASED ON CHANNEL PRIVACY AND LOCALNESS

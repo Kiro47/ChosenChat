@@ -100,7 +100,7 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 	}
 	
 	String[] messages = {
-			ChatColor.GREEN + "_-_-_ Channel Commands ____",
+			ChatColor.GREEN + "-----{Channel Commands}-----",
 			ChatColor.RED + "Usage: /channel <option>",
 			ChatColor.YELLOW + "help: shows this message",
 			ChatColor.YELLOW + "join: joins the specified channel",
@@ -114,7 +114,7 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 	private boolean channelCommand( Player player, String activeChannel ,String[] args) {
 		if ( args.length < 1 ) {
 			//add a help message
-			player.sendMessage(messages);
+			player.sendMessage(getChannelStats(activeChannel));
 			return true;
 		} else {
 		
@@ -170,7 +170,8 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 					break;
 				} else {
 					if ( channels.get(args[1]) == null ) {
-						player.sendMessage(ChatColor.RED + "That Channel doesn't exist!");
+						player.sendMessage(ChatColor.RED + "That Channel doesn't exist! Remember Channel names are case-sensitive!");
+						break;
 					} else {
 						swapChannel(player, args[1]);
 						break;
@@ -202,6 +203,21 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 		return true;
 	}
 
+	private String[] getChannelStats(String activeChannel) {
+		ChatChannel channel = channels.get(activeChannel);
+		ChatColor color = channel.getColor();
+		String[] stats = {
+				color + "Current Channel: " + ChatColor.WHITE + channel.getName(),
+				color + "Permanent: " + ChatColor.WHITE + channel.isPermanent(),
+				color + "Local: " + ChatColor.WHITE + channel.isLocal(),
+				color + "Private: " + ChatColor.WHITE + channel.isPrivate(),
+				ChatColor.WHITE + "Color: " + color + channel.getColorToString()
+		};
+		
+		
+		return stats;
+	}
+
 	private void createChannel(String channelName) {
 		
 		ChatChannel newChannel = new ChatChannel(channelName, false, false, false, "white");
@@ -211,7 +227,8 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 	
 	private String setChannel( String channelName, String setting, String value ) {
 		
-		ChatColor channelColor = channels.get(channelName).getColor();
+		ChatChannel channel = channels.get(channelName);
+		ChatColor channelColor = channel.getColor();
 		
 		switch(setting.toLowerCase()) {
 		
@@ -219,9 +236,8 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 			
 			if ( value == null || (!value.equalsIgnoreCase("true") && !value.equalsIgnoreCase("false") ) ) {
 				//add a help message
-				return "Sets the permanence of a Channel to true or false. Usage: /channel set private <value>";
+				return ChatColor.RED + "Sets the permanence of a Channel to true or false. Usage: /channel set private <value>";
 			} else {
-				ChatChannel channel = channels.get(channelName);
 				channel.setPermanent(value);
 				if ( channel.isPermanent() ) {
 					cfManager.set("channels.yml", channelName + ".local", channel.isLocal());
@@ -237,9 +253,14 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 		case "local":
 			if ( value == null || (!value.equalsIgnoreCase("true") && !value.equalsIgnoreCase("false") ) ) {
 				//add a help message
-				return "Sets the local-ness of a Channel to true or false. Usage: /channel set private <value>";
+				return ChatColor.RED + "Sets the local-ness of a Channel to true or false. Usage: /channel set private <value>";
 			} else {
-				channels.get(channelName).setLocal(value);;
+				channels.get(channelName).setLocal(value);
+				
+				if ( channel.isPermanent() ) {
+					cfManager.set("channels.yml", channelName + ".local", channel.isLocal());
+				}
+				
 				return channelColor + "set channel localness to: " + value;
 			}
 			
@@ -248,7 +269,12 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 				//add a help message
 				return ChatColor.RED + "Sets the privacy of a Channel to true or false. Usage: /channel set private <value>";
 			} else {
-				channels.get(channelName).setPrivate(value);;
+				channels.get(channelName).setPrivate(value);
+				
+				if ( channel.isPermanent() ) {
+					cfManager.set("channels.yml", channelName + ".private", channel.isLocal());
+				}
+				
 				return channelColor + "set channel privacy to: " + value;
 			}
 			
@@ -273,7 +299,13 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 						ChatColor.WHITE + "white, " + 
 						ChatColor.YELLOW + "\nyellow";
 			} else {
-				return channelColor + "Set channel color to: " + channels.get(channelName).setColor(value);
+				String newColor = channels.get(channelName).setColor(value);
+				
+				if ( channel.isPermanent() ) {
+					cfManager.set("channels.yml", channelName + ".color", channel.getColorToString());
+				}
+				
+				return channelColor + "Set channel color to: " + newColor;
 			}
 		default:
 			return ChatColor.RED + "That setting doesn't exist!";
