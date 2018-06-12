@@ -80,36 +80,54 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 				channelCommand(player, activeChannel, args);
 			//channel shortcuts
 			} else {
-				Iterable<String> permanentChannels = cfManager.getConfig("channels.yml").getConfig().getKeys(false);
-				
-				for ( String channel : permanentChannels ) {
-					String shortcut = cfManager.get("channels.yml", channel + ".shortCut");
-					if ( command.getName().equalsIgnoreCase(shortcut) || 
-							command.getName().equalsIgnoreCase("" + shortcut.charAt(0)) ) {
-						if ( channels.get(channel).isPrivate() ) {
-							//deal with players not being able to shortcut to a channel
-							//such as admin chat
-						}
-						swapChannel(player, channel);
-						break;
-					}
-				}
+//				Iterable<String> permanentChannels = cfManager.getConfig("channels.yml").getConfig().getKeys(false);
+//	WIP			
+//				for ( String channel : permanentChannels ) {
+//					String shortcut = cfManager.get("channels.yml", channel + ".shortCut");
+//					if ( command.getName().equalsIgnoreCase(shortcut) || 
+//							command.getName().equalsIgnoreCase("" + shortcut.charAt(0)) ) {
+//						if ( channels.get(channel).isPrivate() ) {
+//							//deal with players not being able to shortcut to a channel
+//							//such as admin chat
+//						}
+//						swapChannel(player, channel);
+//						break;
+//					}
+//				}
 			}
 		}
 		return true;
 	}
 	
+	String[] messages = {
+			ChatColor.GREEN + "_-_-_ Channel Commands ____",
+			ChatColor.RED + "Usage: /channel <option>",
+			ChatColor.YELLOW + "help: shows this message",
+			ChatColor.YELLOW + "join: joins the specified channel",
+			ChatColor.YELLOW + "list: shows all available channels",
+			ChatColor.YELLOW + "create: creates a new channel",
+			ChatColor.YELLOW + "delete: deletes a channel",
+			ChatColor.YELLOW + "set: edits the settings of a channel"
+			
+	};
+	
 	private boolean channelCommand( Player player, String activeChannel ,String[] args) {
 		if ( args.length < 1 ) {
 			//add a help message
-			player.sendMessage("channel help message");
+			player.sendMessage(messages);
 			return true;
 		} else {
 		
-			switch (args[0]) {
+			switch (args[0].toLowerCase()) {
 		
 			case "help":
-			
+				player.sendMessage(messages);
+				break;
+				
+			case "list":
+				for ( ChatChannel c : channels.values() ) {
+					player.sendMessage(c.getColor() + c.getName());
+				}
 				break;
 			
 			case "create":
@@ -120,7 +138,7 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 			
 				if ( args.length < 2 ) {
 					//add a help message
-					player.sendMessage("channel create help message");
+					player.sendMessage(ChatColor.RED + "Usage: /channel create <channel name>");
 					break;
 				}
 		
@@ -134,26 +152,29 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 //					return true;
 //				}
 			
-				if ( args.length < 2 ) {
-					//add a help message
-					player.sendMessage("channel delete help message");
-					break;
+				if ( channels.get(activeChannel) == null ) {
+					player.sendMessage(ChatColor.RED + "You aren't in a Channel! You can only delete the channel you are in");
 				} else {
 					for ( Player p : channels.get(activeChannel).getPlayers() ) {
-						swapChannel(p, "General");
+					swapChannel(p, "General");
 					}
 					channels.remove(activeChannel);
-					break;
 				}
+				
+				break;
 			
 			case "join":
 				if ( args.length < 2 ) {
 					//add a help message
-					player.sendMessage("channel join help message");
+					player.sendMessage(ChatColor.RED + "Usage: /channel join <channel name>");
 					break;
 				} else {
-					swapChannel(player, args[1]);
-					break;
+					if ( channels.get(args[1]) == null ) {
+						player.sendMessage(ChatColor.RED + "That Channel doesn't exist!");
+					} else {
+						swapChannel(player, args[1]);
+						break;
+					}
 				}
 			
 			case "set":
@@ -164,7 +185,7 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 			
 				if ( args.length < 2 ) {
 					//add a help message
-					player.sendMessage("channel set help message");
+					player.sendMessage(ChatColor.RED + "Usage: /channel set <channel name> <setting> <value>");
 					break;
 				} else if ( args.length < 3 ) {
 					player.sendMessage(setChannel(activeChannel, args[1], null));
@@ -173,6 +194,9 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 				}
 				
 				break; 
+			default:
+				
+				break;
 			}
 		}
 		return true;
@@ -189,13 +213,13 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 		
 		ChatColor channelColor = channels.get(channelName).getColor();
 		
-		switch(setting) {
+		switch(setting.toLowerCase()) {
 		
 		case "permanent":
 			
 			if ( value == null || (!value.equalsIgnoreCase("true") && !value.equalsIgnoreCase("false") ) ) {
 				//add a help message
-				return value + " is not true or false. this setting must be true or false";
+				return "Sets the permanence of a Channel to true or false. Usage: /channel set private <value>";
 			} else {
 				ChatChannel channel = channels.get(channelName);
 				channel.setPermanent(value);
@@ -213,7 +237,7 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 		case "local":
 			if ( value == null || (!value.equalsIgnoreCase("true") && !value.equalsIgnoreCase("false") ) ) {
 				//add a help message
-				return "channel set local help message";
+				return "Sets the local-ness of a Channel to true or false. Usage: /channel set private <value>";
 			} else {
 				channels.get(channelName).setLocal(value);;
 				return channelColor + "set channel localness to: " + value;
@@ -222,7 +246,7 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 		case "private":
 			if ( value == null || (!value.equalsIgnoreCase("true") && !value.equalsIgnoreCase("false") ) ) {
 				//add a help message
-				return "channel set private help message";
+				return ChatColor.RED + "Sets the privacy of a Channel to true or false. Usage: /channel set private <value>";
 			} else {
 				channels.get(channelName).setPrivate(value);;
 				return channelColor + "set channel privacy to: " + value;
@@ -231,12 +255,28 @@ public class Commands extends CommandExecute implements Listener,CommandExecutor
 		case "color":
 			if ( value == null ) {
 				//add a help message
-				return "channel set color help message";
+				return ChatColor.RED + "Sets the color of a Channel's text. The colors are: " + 
+						ChatColor.AQUA + "\nlightblue, " + 
+						ChatColor.BLACK + "black, " +
+						ChatColor.BLUE + "blue, " + 
+						ChatColor.DARK_AQUA + "\ncyan, " +
+						ChatColor.DARK_BLUE + "darkblue, " + 
+						ChatColor.DARK_GRAY + "darkgray, " + 
+						ChatColor.DARK_GREEN + "\ndarkgreen, " +
+						ChatColor.DARK_PURPLE + "purple, " + 
+						ChatColor.DARK_RED + "darkred, " + 
+						ChatColor.GOLD + "\norange, " + 
+						ChatColor.GRAY + "gray, " + 
+						ChatColor.GREEN + "green, " + 
+						ChatColor.LIGHT_PURPLE + "\nmagenta, " + 
+						ChatColor.RED + "red, " + 
+						ChatColor.WHITE + "white, " + 
+						ChatColor.YELLOW + "\nyellow";
 			} else {
 				return channelColor + "Set channel color to: " + channels.get(channelName).setColor(value);
 			}
 		default:
-			return ChatColor.RED + "Invalid Argument";
+			return ChatColor.RED + "That setting doesn't exist!";
 		}
 	}
 
