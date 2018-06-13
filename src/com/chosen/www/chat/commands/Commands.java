@@ -15,9 +15,9 @@ import com.chosen.www.chat.ConfigManager;
 import com.chosen.www.chat.MainChat;
 import com.chosen.www.chat.Permissions;
 
-import net.minecraft.server.v1_12_R1.CommandExecute;
 
-public class Commands extends CommandExecute implements Listener,CommandExecutor {
+
+public class Commands implements Listener,CommandExecutor {
 
 	
 	//permission error String
