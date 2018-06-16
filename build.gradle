@@ -4,8 +4,8 @@ plugins {
     id 'idea'
 }
 
-group 'MainChat'
-version '0.1-SNAPSHOT'
+group 'ChosenChat'
+version '0.2-SNAPSHOT'
 archivesBaseName = 'ChosenChat'
 
 sourceCompatibility = 1.8
