@@ -34,8 +34,4 @@ public class MainChat extends JavaPlugin {
 		
 	}
 	
-	public void loadConfig() {
-		getConfig().options().copyDefaults(true);
-		saveConfig();
-	}
 }
