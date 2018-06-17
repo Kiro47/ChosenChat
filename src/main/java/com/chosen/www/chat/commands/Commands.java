@@ -189,9 +189,9 @@ public class Commands implements Listener,CommandExecutor {
 					player.sendMessage(ChatColor.RED + "Usage: /channel set <channel name> <setting> <value>");
 					break;
 				} else if ( args.length < 3 ) {
-					player.sendMessage(setChannel(activeChannel, args[1], null));
+					player.sendMessage(setChannel( player, activeChannel, args[1], null));
 				} else {
-					player.sendMessage(setChannel(activeChannel, args[1], args[2]));
+					player.sendMessage(setChannel( player, activeChannel, args[1], args[2]));
 				}
 				
 				break; 
@@ -225,7 +225,7 @@ public class Commands implements Listener,CommandExecutor {
 		
 	}
 	
-	private String setChannel( String channelName, String setting, String value ) {
+	private String setChannel(Player player, String channelName, String setting, String value ) {
 		
 		ChatChannel channel = channels.get(channelName);
 		ChatColor channelColor = channel.getColor();
@@ -233,6 +233,11 @@ public class Commands implements Listener,CommandExecutor {
 		switch(setting.toLowerCase()) {
 		
 		case "permanent":
+			
+			if ( !player.hasPermission(Permissions.COMMAND_EDIT_CHANNEL) ) {
+				player.sendMessage(ChatColor.RED + cannotInto);
+				return cannotInto;
+			}
 			
 			if ( value == null || (!value.equalsIgnoreCase("true") && !value.equalsIgnoreCase("false") ) ) {
 				//add a help message
