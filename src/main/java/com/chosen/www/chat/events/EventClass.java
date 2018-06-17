@@ -29,11 +29,19 @@ public class EventClass implements Listener {
 	}
 	
 	@EventHandler
-	public void onJoin(PlayerJoinEvent event) {
+	public void onJoin( PlayerJoinEvent event) {
 		
 		Player player = event.getPlayer();
-		String playerUUID = player.getUniqueId().toString().replace("-", "");
+		String joinMessage = playerJoined(player);
 		
+		if ( joinMessage != null) {
+			event.setJoinMessage(joinMessage);
+		}
+	}
+	
+	public String playerJoined( Player player) {
+		
+		String playerUUID = player.getUniqueId().toString().replace("-", "");
 		
 		if ( cfManager.get("players.yml", playerUUID) == null) {
 			cfManager.set("players.yml", playerUUID + ".username", player.getName());
@@ -41,12 +49,12 @@ public class EventClass implements Listener {
 			commands.getChannel("General").join(player);
 			
 			plugin.getServer().getConsoleSender().sendMessage(ChatColor.AQUA + "new player " + player.getName() + " joined");
-			event.setJoinMessage(ChatColor.LIGHT_PURPLE + "Welcome " + player.getName() + " to the server!");
+			return ChatColor.LIGHT_PURPLE + "Welcome " + player.getName() + " to the server!";
 		} else {
 			//if the player has joined before but changed their username
 			cfManager.set("players.yml", playerUUID + ".username", player.getName());
+			return null;
 		}
-		
 	}
 	
 	@EventHandler
