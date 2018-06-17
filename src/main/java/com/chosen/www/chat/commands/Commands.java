@@ -71,9 +71,9 @@ public class Commands implements Listener,CommandExecutor {
 			String playerUUID = player.getUniqueId().toString().replace("-", "");
 			String activeChannel = cfManager.get("players.yml", playerUUID + ".activeChannel");
 			
-//			if ( !player.hasPermission(Permissions.COMMAND_GENERAL) ) {
-//				player.sendMessage(ChatColor.RED + cannotInto);
-//			}
+			if ( !player.hasPermission(Permissions.COMMAND_GENERAL) ) {
+				player.sendMessage(ChatColor.RED + cannotInto);
+			}
 		
 			//actual commands
 			if ( command.getName().equalsIgnoreCase(cmd0) ) {
@@ -131,10 +131,10 @@ public class Commands implements Listener,CommandExecutor {
 				break;
 			
 			case "create":
-//				if ( !player.hasPermission(Permissions.COMMAND_CREATE_CHANNEL) ) {
-//					player.sendMessage(ChatColor.RED + cannotInto);
-//					return true;
-//				}
+				if ( !player.hasPermission(Permissions.COMMAND_CREATE_CHANNEL) ) {
+					player.sendMessage(ChatColor.RED + cannotInto);
+					return true;
+				}
 			
 				if ( args.length < 2 ) {
 					//add a help message
@@ -147,10 +147,10 @@ public class Commands implements Listener,CommandExecutor {
 				break;
 			
 			case "delete":
-//				if ( !player.hasPermission(Permissions.COMMAND_DELETE_CHANNEL) ) {
-//					player.sendMessage(ChatColor.RED + cannotInto);
-//					return true;
-//				}
+				if ( !player.hasPermission(Permissions.COMMAND_DELETE_CHANNEL) ) {
+					player.sendMessage(ChatColor.RED + cannotInto);
+					return true;
+				}
 			
 				if ( channels.get(activeChannel) == null ) {
 					player.sendMessage(ChatColor.RED + "You aren't in a Channel! You can only delete the channel you are in");
@@ -179,10 +179,10 @@ public class Commands implements Listener,CommandExecutor {
 				}
 			
 			case "set":
-//				if ( !player.hasPermission(Permissions.COMMAND_EDIT_CHANNEL) ) {
-//					player.sendMessage(ChatColor.RED + cannotInto);
-//					break;
-//				}	
+				if ( !player.hasPermission(Permissions.COMMAND_EDIT_CHANNEL) ) {
+					player.sendMessage(ChatColor.RED + cannotInto);
+					return true;
+				}	
 			
 				if ( args.length < 2 ) {
 					//add a help message
