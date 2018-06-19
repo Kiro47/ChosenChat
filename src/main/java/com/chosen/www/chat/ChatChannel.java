@@ -42,9 +42,9 @@ public class ChatChannel {
 		
 		switch (col.toLowerCase()) {
 		
-		case "lightblue":
+		case "aqua":
 			color = ChatColor.AQUA;
-			return ChatColor.AQUA + "Light Blue";
+			return ChatColor.AQUA + "Aqua";
 			
 		case "black":
 			color = ChatColor.BLACK;
@@ -54,33 +54,33 @@ public class ChatChannel {
 			color = ChatColor.BLUE;
 			return ChatColor.BLUE + "Blue";
 			
-		case "cyan":
+		case "dark_aqua":
 			color = ChatColor.DARK_AQUA;
-			return ChatColor.DARK_AQUA + "Cyan";
+			return ChatColor.DARK_AQUA + "Dark Aqua";
 			
-		case "darkblue":
+		case "dark_blue":
 			color = ChatColor.DARK_BLUE;
 			return ChatColor.DARK_BLUE + "Dark Blue";
 			
-		case "darkgray":
+		case "dark_gray":
 			color = ChatColor.DARK_GRAY;
 			return ChatColor.DARK_GRAY + "Dark Gray";
 			
-		case "darkgreen":
+		case "dark_green":
 			color = ChatColor.DARK_GREEN;
-			return ChatColor.GREEN + "Dark Green";
+			return ChatColor.DARK_GREEN + "Dark Green";
 			
-		case "purple":
+		case "dark_purple":
 			color = ChatColor.DARK_PURPLE;
-			return ChatColor.DARK_PURPLE + "Purple";
+			return ChatColor.DARK_PURPLE + "Dark Purple";
 			
-		case "darkred":
+		case "dark_red":
 			color = ChatColor.DARK_RED;
 			return ChatColor.DARK_RED + "Dark Red";
 			
-		case "orange":
+		case "gold":
 			color = ChatColor.GOLD;
-			return ChatColor.GOLD + "Orange";
+			return ChatColor.GOLD + "Gold";
 			
 		case "gray":
 			color = ChatColor.GRAY;
@@ -90,9 +90,9 @@ public class ChatChannel {
 			color = ChatColor.GREEN;
 			return ChatColor.GREEN + "Green";
 			
-		case "magenta":
+		case "light_purple":
 			color = ChatColor.LIGHT_PURPLE;
-			return ChatColor.LIGHT_PURPLE + "Magenta";
+			return ChatColor.LIGHT_PURPLE + "Light Purple";
 			
 		case "red":
 			color = ChatColor.RED;
@@ -107,8 +107,7 @@ public class ChatChannel {
 			return ChatColor.YELLOW + "Yellow";
 		
 		default:
-			color = ChatColor.WHITE;
-			return ChatColor.WHITE + "White, because invalid color";
+			return color + "the same color, because invalid color";
 		}
 	}
 	
@@ -120,7 +119,7 @@ public class ChatChannel {
 		switch (color) {
 		
 		case AQUA:
-			return "lightblue";
+			return "aqua";
 			
 		case BLACK:
 			return "black";
@@ -129,25 +128,25 @@ public class ChatChannel {
 			return"blue";
 			
 		case DARK_AQUA:
-			return "cyan";
+			return "dark_aqua";
 			
 		case DARK_BLUE:
-			return "darkblue";
+			return "dark_blue";
 			
 		case DARK_GRAY:
-			return "darkgray";
+			return "dark_gray";
 			
 		case DARK_GREEN:
-			return "darkgreen";
+			return "dark_green";
 			
 		case DARK_PURPLE:
-			return "purple";
+			return "dark_purple";
 			
 		case DARK_RED:
-			return "darkred";
+			return "dark_red";
 			
 		case GOLD:
-			return "orange";
+			return "gold";
 			
 		case GRAY:
 			return "gray";
@@ -156,7 +155,7 @@ public class ChatChannel {
 			return "green";
 			
 		case LIGHT_PURPLE:
-			return "magenta";
+			return "light_purple";
 			
 		case RED:
 			return "red";
