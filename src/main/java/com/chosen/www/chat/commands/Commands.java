@@ -312,6 +312,36 @@ public class Commands implements Listener,CommandExecutor {
 				
 				return channelColor + "Set channel color to: " + newColor;
 			}
+		
+		case "colour":
+			if ( value == null ) {
+				//add a help message
+				return ChatColor.RED + "Sets the color of a Channel's text. The colors are: " + 
+						ChatColor.AQUA + "\nlightblue, " + 
+						ChatColor.BLACK + "black, " +
+						ChatColor.BLUE + "blue, " + 
+						ChatColor.DARK_AQUA + "\ncyan, " +
+						ChatColor.DARK_BLUE + "darkblue, " + 
+						ChatColor.DARK_GRAY + "darkgray, " + 
+						ChatColor.DARK_GREEN + "\ndarkgreen, " +
+						ChatColor.DARK_PURPLE + "purple, " + 
+						ChatColor.DARK_RED + "darkred, " + 
+						ChatColor.GOLD + "\norange, " + 
+						ChatColor.GRAY + "gray, " + 
+						ChatColor.GREEN + "green, " + 
+						ChatColor.LIGHT_PURPLE + "\nmagenta, " + 
+						ChatColor.RED + "red, " + 
+						ChatColor.WHITE + "white, " + 
+						ChatColor.YELLOW + "\nyellow";
+			} else {
+				String newColor = channels.get(channelName).setColor(value);
+				
+				if ( channel.isPermanent() ) {
+					cfManager.set("channels.yml", channelName + ".color", channel.getColorToString());
+				}
+				
+				return channelColor + "Set channel color to: " + newColor;
+			}
 		default:
 			return ChatColor.RED + "That setting doesn't exist!";
 		}
