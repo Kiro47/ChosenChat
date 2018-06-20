@@ -287,22 +287,22 @@ public class Commands implements Listener,CommandExecutor {
 			if ( value == null ) {
 				//add a help message
 				return ChatColor.RED + "Sets the color of a Channel's text. The colors are: " + 
-						ChatColor.AQUA + "\nlightblue, " + 
-						ChatColor.BLACK + "black, " +
-						ChatColor.BLUE + "blue, " + 
-						ChatColor.DARK_AQUA + "\ncyan, " +
-						ChatColor.DARK_BLUE + "darkblue, " + 
-						ChatColor.DARK_GRAY + "darkgray, " + 
-						ChatColor.DARK_GREEN + "\ndarkgreen, " +
-						ChatColor.DARK_PURPLE + "purple, " + 
-						ChatColor.DARK_RED + "darkred, " + 
-						ChatColor.GOLD + "\norange, " + 
-						ChatColor.GRAY + "gray, " + 
-						ChatColor.GREEN + "green, " + 
-						ChatColor.LIGHT_PURPLE + "\nmagenta, " + 
-						ChatColor.RED + "red, " + 
-						ChatColor.WHITE + "white, " + 
-						ChatColor.YELLOW + "\nyellow";
+					ChatColor.AQUA + "\naqua, " + 
+					ChatColor.BLACK + "black, " +
+					ChatColor.BLUE + "blue, " + 
+					ChatColor.DARK_AQUA + "\ndark_aqua, " +
+					ChatColor.DARK_BLUE + "dark_blue, " + 
+					ChatColor.DARK_GRAY + "dark_gray, " + 
+					ChatColor.DARK_GREEN + "\ndark_green, " +
+					ChatColor.DARK_PURPLE + "dark_purple, " + 
+					ChatColor.DARK_RED + "dark_red, " + 
+					ChatColor.GOLD + "\ngold, " + 
+					ChatColor.GRAY + "gray, " + 
+					ChatColor.GREEN + "green, " + 
+					ChatColor.LIGHT_PURPLE + "\nlight_purple, " + 
+					ChatColor.RED + "red, " + 
+					ChatColor.WHITE + "white, " + 
+					ChatColor.YELLOW + "\nyellow";
 			} else {
 				String newColor = channels.get(channelName).setColor(value);
 				
@@ -317,19 +317,19 @@ public class Commands implements Listener,CommandExecutor {
 			if ( value == null ) {
 				//add a help message
 				return ChatColor.RED + "Sets the color of a Channel's text. The colors are: " + 
-						ChatColor.AQUA + "\nlightblue, " + 
+						ChatColor.AQUA + "\naqua, " + 
 						ChatColor.BLACK + "black, " +
 						ChatColor.BLUE + "blue, " + 
-						ChatColor.DARK_AQUA + "\ncyan, " +
-						ChatColor.DARK_BLUE + "darkblue, " + 
-						ChatColor.DARK_GRAY + "darkgray, " + 
-						ChatColor.DARK_GREEN + "\ndarkgreen, " +
-						ChatColor.DARK_PURPLE + "purple, " + 
-						ChatColor.DARK_RED + "darkred, " + 
-						ChatColor.GOLD + "\norange, " + 
+						ChatColor.DARK_AQUA + "\ndark_aqua, " +
+						ChatColor.DARK_BLUE + "dark_blue, " + 
+						ChatColor.DARK_GRAY + "dark_gray, " + 
+						ChatColor.DARK_GREEN + "\ndark_green, " +
+						ChatColor.DARK_PURPLE + "dark_purple, " + 
+						ChatColor.DARK_RED + "dark_red, " + 
+						ChatColor.GOLD + "\ngold, " + 
 						ChatColor.GRAY + "gray, " + 
 						ChatColor.GREEN + "green, " + 
-						ChatColor.LIGHT_PURPLE + "\nmagenta, " + 
+						ChatColor.LIGHT_PURPLE + "\nlight_purple, " + 
 						ChatColor.RED + "red, " + 
 						ChatColor.WHITE + "white, " + 
 						ChatColor.YELLOW + "\nyellow";
