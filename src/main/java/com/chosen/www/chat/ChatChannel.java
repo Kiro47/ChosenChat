@@ -12,7 +12,7 @@ public class ChatChannel {
 	boolean permanent;
 	boolean local;
 	boolean locked;
-	private ChatColor color;
+	private String color;
 	
 	public ChatChannel( String name, boolean permanent, boolean local, boolean locked, String color ) {
 		channelName = name;
@@ -42,132 +42,168 @@ public class ChatChannel {
 		
 		switch (col.toLowerCase()) {
 		
-		case "aqua":
-			color = ChatColor.AQUA;
+		case "&b":
+			color = "&b";
 			return ChatColor.AQUA + "Aqua";
 			
-		case "black":
-			color = ChatColor.BLACK;
+		case "&0":
+			color = "&0";
 			return ChatColor.BLACK + "Black";
 			
-		case "blue":
-			color = ChatColor.BLUE;
+		case "&9":
+			color = "&9";
 			return ChatColor.BLUE + "Blue";
 			
-		case "dark_aqua":
-			color = ChatColor.DARK_AQUA;
+		case "&3":
+			color = "&3";
 			return ChatColor.DARK_AQUA + "Dark Aqua";
 			
-		case "dark_blue":
-			color = ChatColor.DARK_BLUE;
+		case "&1":
+			color = "&1";
 			return ChatColor.DARK_BLUE + "Dark Blue";
 			
-		case "dark_gray":
-			color = ChatColor.DARK_GRAY;
+		case "&8":
+			color = "&8";
 			return ChatColor.DARK_GRAY + "Dark Gray";
 			
-		case "dark_green":
-			color = ChatColor.DARK_GREEN;
+		case "&2":
+			color = "&2";
 			return ChatColor.DARK_GREEN + "Dark Green";
 			
-		case "dark_purple":
-			color = ChatColor.DARK_PURPLE;
+		case "&5":
+			color = "&5";
 			return ChatColor.DARK_PURPLE + "Dark Purple";
 			
-		case "dark_red":
-			color = ChatColor.DARK_RED;
+		case "&4":
+			color = "&4";
 			return ChatColor.DARK_RED + "Dark Red";
 			
-		case "gold":
-			color = ChatColor.GOLD;
+		case "&6":
+			color = "&6";
 			return ChatColor.GOLD + "Gold";
 			
-		case "gray":
-			color = ChatColor.GRAY;
+		case "&7":
+			color = "&7";
 			return ChatColor.GRAY + "Gray";
 			
-		case "green":
-			color = ChatColor.GREEN;
+		case "&a":
+			color = "&a";
 			return ChatColor.GREEN + "Green";
 			
-		case "light_purple":
-			color = ChatColor.LIGHT_PURPLE;
+		case "&d":
+			color = "&d";
 			return ChatColor.LIGHT_PURPLE + "Light Purple";
 			
-		case "red":
-			color = ChatColor.RED;
+		case "&c":
+			color = "&c";
 			return ChatColor.RED + "Red";
 			
-		case "white":
-			color = ChatColor.WHITE;
+		case "&f":
+			color = "&f";
 			return ChatColor.WHITE + "White";
 			
-		case "yellow":
-			color = ChatColor.YELLOW;
+		case "&e":
+			color = "&e";
 			return ChatColor.YELLOW + "Yellow";
+			
+		case "&k":
+			return ChatColor.MAGIC + "magic";
+			
+		case "&l":
+			return ChatColor.BOLD + "bold";
+			
+		case "&m":
+			return ChatColor.STRIKETHROUGH + "strikethrough";
+		
+		case "&n":
+			return ChatColor.UNDERLINE + "underline";
+			
+		case "&o":
+			return ChatColor.ITALIC + "italic";
+			
+		case "&r":
+			return ChatColor.RESET + "reset";
 		
 		default:
 			return color + "the same color, because invalid color";
 		}
 	}
 	
-	public ChatColor getColor() {
+	public String getColor() {
 		return color;
 	}
 	
 	public String getColorToString() {
 		switch (color) {
 		
-		case AQUA:
+		case "&b":
 			return "aqua";
 			
-		case BLACK:
+		case "&0":
 			return "black";
 			
-		case BLUE:
+		case "&9":
 			return"blue";
 			
-		case DARK_AQUA:
+		case "&3":
 			return "dark_aqua";
 			
-		case DARK_BLUE:
+		case "&1":
 			return "dark_blue";
 			
-		case DARK_GRAY:
+		case "&8":
 			return "dark_gray";
 			
-		case DARK_GREEN:
+		case "&2":
 			return "dark_green";
 			
-		case DARK_PURPLE:
+		case "&5":
 			return "dark_purple";
 			
-		case DARK_RED:
+		case "&4":
 			return "dark_red";
 			
-		case GOLD:
+		case "&6":
 			return "gold";
 			
-		case GRAY:
+		case "&7":
 			return "gray";
 			
-		case GREEN:
+		case "&a":
 			return "green";
 			
-		case LIGHT_PURPLE:
+		case "&d":
 			return "light_purple";
 			
-		case RED:
+		case "&c":
 			return "red";
 			
-		case WHITE:
+		case "&f":
 			return "white";
 			
-		case YELLOW:
+		case "&e":
 			return "yellow";
+			
+		case "&k":
+			return "magic";
+			
+		case "&l":
+			return "bold";
+			
+		case "&m":
+			return "strikethrough";
 		
+		case "&n":
+			return "underline";
+			
+		case "&o":
+			return "italic";
+			
+		case "&r":
+			return "reset";
+			
 		default:
-			return "white";
+			return "error";
 		}
 	}
 	

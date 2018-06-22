@@ -39,7 +39,7 @@ public class Commands implements Listener,CommandExecutor {
 		//Initial setup of General Global chat if it doesn't exist
 		//General chat's settings can be changed but it must exist or bad things happen
 		if ( cfManager.get("channels.yml", "General") == null ) {
-			ChatChannel general = new ChatChannel("General", true, false, false, "darkgreen" );
+			ChatChannel general = new ChatChannel("General", true, false, false, "&2" );
 			channels.put("General", general);
 			System.out.println("created general chat because it did not exist");
 		}
@@ -205,13 +205,13 @@ public class Commands implements Listener,CommandExecutor {
 
 	private String[] getChannelStats(String activeChannel) {
 		ChatChannel channel = channels.get(activeChannel);
-		ChatColor color = channel.getColor();
+		String color = channel.getColor();
 		String[] stats = {
 				color + "Current Channel: " + ChatColor.WHITE + channel.getName(),
 				color + "Permanent: " + ChatColor.WHITE + channel.isPermanent(),
 				color + "Local: " + ChatColor.WHITE + channel.isLocal(),
 				color + "Private: " + ChatColor.WHITE + channel.isPrivate(),
-				ChatColor.WHITE + "Color: " + color + channel.getColorToString()
+				ChatColor.WHITE + "Color: " + color + channel.getColor()
 		};
 		
 		
@@ -228,7 +228,7 @@ public class Commands implements Listener,CommandExecutor {
 	private String setChannel(Player player, String channelName, String setting, String value ) {
 		
 		ChatChannel channel = channels.get(channelName);
-		ChatColor channelColor = channel.getColor();
+		String channelColor = channel.getColor();
 		
 		switch(setting.toLowerCase()) {
 		
@@ -247,7 +247,7 @@ public class Commands implements Listener,CommandExecutor {
 				if ( channel.isPermanent() ) {
 					cfManager.set("channels.yml", channelName + ".local", channel.isLocal());
 					cfManager.set("channels.yml", channelName + ".private", channel.isPrivate());
-					cfManager.set("channels.yml", channelName + ".color", channel.getColorToString());
+					cfManager.set("channels.yml", channelName + ".color", channel.getColor());
 					cfManager.set("channels.yml", channelName + ".shortCut", channel.getName().toLowerCase());
 				} else {
 					cfManager.set("channels.yml", channelName, null);
@@ -316,7 +316,7 @@ public class Commands implements Listener,CommandExecutor {
 		case "colour":
 			if ( value == null ) {
 				//add a help message
-				return ChatColor.RED + "Sets the color of a Channel's text. The colors are: " + 
+				return ChatColor.RED + "Sets the colour of a Channel's text. The colors are: " + 
 						ChatColor.AQUA + "\naqua, " + 
 						ChatColor.BLACK + "black, " +
 						ChatColor.BLUE + "blue, " + 
@@ -363,9 +363,9 @@ public class Commands implements Listener,CommandExecutor {
 		
 		channels.get(joinedChannel).join(player);
 		String activeChannel = cfManager.get("players.yml", playerUUID + ".activeChannel");
-		ChatColor color = channels.get(activeChannel).getColor();
+		String color = channels.get(activeChannel).getColor();
 		
-		player.sendMessage(color + "you joined the " + activeChannel + " channel");
+		player.sendMessage(ChatColor.translateAlternateColorCodes('&', color + "you joined the " + activeChannel + " channel"));
 	}
 
 }

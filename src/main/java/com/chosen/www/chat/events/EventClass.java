@@ -74,7 +74,7 @@ public class EventClass implements Listener {
 		String activeChannel = cfManager.get("players.yml", playerUUID + ".activeChannel");
 		char channelChar = activeChannel.charAt(0);
 		ChatChannel channel = commands.getChannel(activeChannel);
-		ChatColor color = channel.getColor();
+		String channelColor = channel.getColor();
 		
 		/*
 		 * NEED TO ADD SUPPORT FOR PRIVATE AND LOCAL CHANNELS HERE
@@ -99,9 +99,14 @@ public class EventClass implements Listener {
 				}
 			}
 		}
+		//channel character
+		String message = channelColor + "[" + channelChar + "] " 
+				//player name
+				+ "&f" + player.getDisplayName() + "&7: " 
+				//message
+				+ channelColor + event.getMessage();
 		
-		event.setFormat(color + "[" + channelChar + "] " + ChatColor.WHITE + player.getDisplayName() + ChatColor.GRAY + ": " + color + event.getMessage() );
-		
+		event.setFormat(ChatColor.translateAlternateColorCodes('&', message));
 	}
 	
 }
